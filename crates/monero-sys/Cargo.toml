@@ -1,0 +1,30 @@
+[package]
+name = "monero-sys"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "^1.0"
+autocxx = { version = "0.22.3" }
+cxx = { version = "1.0.68" }
+
+[build-dependencies]
+anyhow = "^1.0"
+autocxx-build = { version = "0.22.3" }
+dirs = "4.0.0"
+cmake = "0.1.48"
+system-deps = "6.0"
+
+[package.metadata.system-deps]
+protobuf = "*"
+libsodium = "*"
+libunbound = "*"
+libusb = { version = "*", name = "libusb-1.0" }
+libzmq = "*"
+openssl = "*"
+
+[package.metadata.system-deps.'cfg(target_os = "linux")']
+hidapi = { version = "*", name = "hidapi-libusb" }
+
+[package.metadata.system-deps.'cfg(target_os = "macos")']
+hidapi = { version = "*", name = "hidapi" }

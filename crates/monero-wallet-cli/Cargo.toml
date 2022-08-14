@@ -1,0 +1,11 @@
+[package]
+name = "monero-wallet-cli"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "^1.0"
+clap = { version = "^3.2", features = ["derive"] }
+rpassword = "^7.0"
+
+monero-sys = { path = "../monero-sys", version = "^0.1"}

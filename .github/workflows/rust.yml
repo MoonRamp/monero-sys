@@ -1,0 +1,99 @@
+name: Test CI
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+on:
+  pull_request:
+    branches:
+  push:
+    branches:
+    - 'master'
+    tags:
+    - '[0-9]+.[0-9]+.[0-9]+'
+env:
+  CARGO_TERM_COLOR: "always"
+jobs:
+  test-unit:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install Build Tools (Linux)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: |
+        sudo apt-get update && sudo apt install \
+          build-essential \
+          cmake \
+          libevent-dev \
+          libexpat1-dev \
+          libhidapi-dev \
+          libldns-dev \
+          liblzma-dev \
+          libpgm-dev \
+          libprotobuf-dev \
+          libreadline6-dev \
+          libsodium-dev \
+          libssl-dev \
+          libudev-dev \
+          libunbound-dev \
+          libunwind8-dev \
+          libusb-1.0-0-dev \
+          libzmq3-dev \
+          pkg-config \
+          protobuf-compiler \
+          qttools5-dev-tools \
+          libboost-chrono-dev \
+          libboost-date-time-dev \
+          libboost-filesystem-dev \
+          libboost-locale-dev \
+          libboost-program-options-dev \
+          libboost-regex-dev \
+          libboost-serialization-dev \
+          libboost-system-dev \
+          libboost-thread-dev \
+          python3 \
+          ccache \
+          doxygen \
+          graphviz
+    - name: Install Build Tools (Macos)
+      if: ${{ matrix.os == 'macos-latest' }}
+      run: |
+        brew install \
+          autoconf \
+          autogen \
+          automake \
+          binutils \
+          boost \
+          ccache \
+          cmake \
+          coreutils \
+          doxygen \
+          expat \
+          graphviz \
+          hidapi \
+          ldns \
+          libpgm \
+          libsodium \
+          libunwind-headers \
+          miniupnpc \
+          openssl \
+          pkg-config \
+          protobuf \
+          readline \
+          unbound \
+          xz \
+          zmq
+        export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/openssl@3/lib/pkgconfig"
+        echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> $GITHUB_ENV
+    - name: Build monero-sys
+      run: |
+        pushd crates/monero-sys/monero
+        git submodule init && git submodule update
+        popd
+        cargo build
+    - name: Test monero-sys
+      run: cargo test
