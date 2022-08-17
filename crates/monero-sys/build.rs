@@ -1,10 +1,23 @@
+use std::{env, process::Command};
+
 fn main() -> anyhow::Result<()> {
+    let path = env::current_dir().unwrap().join("monero/contrib/depends");
+    let mut cmd = Command::new("sh");
+    cmd.args(["-c", "exec \"$0\" \"$@\""]).arg("make");
+    cmd.current_dir(&path);
+    cmd.status()?;
+    //let dep_dst = autotools::Config::new(V).fast_build(true).build();
+
     let dst = cmake::Config::new("monero")
         .define("BUILD_TESTS", "OFF")
         .define("STATIC", "ON")
         .define("BUILD_GUI_DEPS", "ON")
+        .define(
+            "CMAKE_TOOLCHAIN_FILE",
+            "monero/contrib/depends/share/toolchain.cmake",
+        )
         .define("CMAKE_BUILD_TYPE", "Release")
-        .build_target("depends")
+        .build_target("wallet_api")
         .build();
 
     let monero_src = std::path::PathBuf::from("monero/src");
