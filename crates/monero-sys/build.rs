@@ -4,7 +4,7 @@ fn main() -> anyhow::Result<()> {
         .define("STATIC", "ON")
         .define("BUILD_GUI_DEPS", "ON")
         .define("CMAKE_BUILD_TYPE", "Release")
-        .build_target("wallet_api")
+        .build_target("depends")
         .build();
 
     let monero_src = std::path::PathBuf::from("monero/src");
@@ -87,45 +87,45 @@ fn main() -> anyhow::Result<()> {
     println!("cargo:rustc-link-lib=static=wallet-crypto");
     println!("cargo:rustc-link-lib=static=version");
 
-    // Link 3rd party libs
-    system_deps::Config::new().probe().unwrap();
-    link_boost();
+    //// Link 3rd party libs
+    //system_deps::Config::new().probe().unwrap();
+    //link_boost();
 
     println!("cargo:rerun-if-changed=src/lib.rs");
     Ok(())
 }
 
-fn link_boost() {
-    let boost_libs = [
-        "boost_chrono",
-        "boost_date_time",
-        "boost_filesystem",
-        #[cfg(target_os = "linux")]
-        "boost_locale",
-        #[cfg(target_os = "macos")]
-        "boost_locale-mt",
-        "boost_program_options",
-        "boost_regex",
-        "boost_serialization",
-        "boost_system",
-        #[cfg(target_os = "linux")]
-        "boost_thread",
-        #[cfg(target_os = "macos")]
-        "boost_thread-mt",
-    ];
-
-    let known_paths = vec![
-        "/usr/lib".to_string(),
-        "/usr/lib/x86_64-linux-gnu".to_string(),
-        "/usr/local/lib".to_string(),
-        format!("{}/brew/lib", dirs::home_dir().unwrap().display()),
-    ];
-
-    for known in &known_paths {
-        println!("cargo:rustc-link-search={}", known);
-    }
-
-    for lib in &boost_libs {
-        println!("cargo:rustc-link-lib={}", lib);
-    }
-}
+//fn link_boost() {
+//    let boost_libs = [
+//        "boost_chrono",
+//        "boost_date_time",
+//        "boost_filesystem",
+//        #[cfg(target_os = "linux")]
+//        "boost_locale",
+//        #[cfg(target_os = "macos")]
+//        "boost_locale-mt",
+//        "boost_program_options",
+//        "boost_regex",
+//        "boost_serialization",
+//        "boost_system",
+//        #[cfg(target_os = "linux")]
+//        "boost_thread",
+//        #[cfg(target_os = "macos")]
+//        "boost_thread-mt",
+//    ];
+//
+//    let known_paths = vec![
+//        "/usr/lib".to_string(),
+//        "/usr/lib/x86_64-linux-gnu".to_string(),
+//        "/usr/local/lib".to_string(),
+//        format!("{}/brew/lib", dirs::home_dir().unwrap().display()),
+//    ];
+//
+//    for known in &known_paths {
+//        println!("cargo:rustc-link-search={}", known);
+//    }
+//
+//    for lib in &boost_libs {
+//        println!("cargo:rustc-link-lib={}", lib);
+//    }
+//}

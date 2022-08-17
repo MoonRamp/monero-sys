@@ -27,38 +27,12 @@ jobs:
       run: |
         sudo apt-get update && sudo apt install \
           build-essential \
-          cmake \
-          libevent-dev \
-          libexpat1-dev \
-          libhidapi-dev \
-          libldns-dev \
-          liblzma-dev \
-          libpgm-dev \
-          libprotobuf-dev \
-          libreadline6-dev \
-          libsodium-dev \
-          libssl-dev \
-          libudev-dev \
-          libunbound-dev \
-          libunwind8-dev \
-          libusb-1.0-0-dev \
-          libzmq3-dev \
-          pkg-config \
-          protobuf-compiler \
-          qttools5-dev-tools \
-          libboost-chrono-dev \
-          libboost-date-time-dev \
-          libboost-filesystem-dev \
-          libboost-locale-dev \
-          libboost-program-options-dev \
-          libboost-regex-dev \
-          libboost-serialization-dev \
-          libboost-system-dev \
-          libboost-thread-dev \
-          python3 \
           ccache \
+          cmake \
           doxygen \
-          graphviz
+          graphviz \
+          pkg-config \
+          python3
     - name: Install Build Tools (Macos)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
@@ -67,28 +41,12 @@ jobs:
           autogen \
           automake \
           binutils \
-          boost \
           ccache \
           cmake \
           coreutils \
           doxygen \
-          expat \
           graphviz \
-          hidapi \
-          ldns \
-          libpgm \
-          libsodium \
-          libunwind-headers \
-          miniupnpc \
-          openssl \
-          pkg-config \
-          protobuf \
-          readline \
-          unbound \
-          xz \
-          zmq
-        export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/openssl@3/lib/pkgconfig"
-        echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> $GITHUB_ENV
+          pkg-config 
     - name: Build monero-sys
       run: |
         pushd crates/monero-sys/monero
