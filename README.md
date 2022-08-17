@@ -1,8 +1,8 @@
 # monero-sys
 
-[![Test CI](https://github.com/MoonRamp/monero-sys/actions/workflows/rust.yml/badge.svg)](https://github.com/MoonRamp/monero-sys/actions/workflows/rust.yml)
+| [![Test CI](https://github.com/MoonRamp/monero-sys/actions/workflows/rust.yml/badge.svg)](https://github.com/MoonRamp/monero-sys/actions/workflows/rust.yml) | [![LICENSE](https://img.shields.io/github/license/moonramp/monero-sys)](https://github.com/moonramp/monero-sys/blob/master/LICENSE) |
 
-monero-sys is [Rust](https://www.rust-lang.org/) crate for building and linking to [Monero](https://github.com/monero-project/monero).
+monero-sys is a [Rust](https://www.rust-lang.org/) crate for building and linking to [Monero](https://github.com/monero-project/monero).
 
 ## Goals
 
